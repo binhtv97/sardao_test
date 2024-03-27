@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "355067498840",
+    "firebase_url": "https://react-native-map-checker-default-rtdb.firebaseio.com",
+    "project_id": "react-native-map-checker",
+    "storage_bucket": "react-native-map-checker.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:355067498840:android:980d8dc126d6eaa339952d",
+        "android_client_info": {
+          "package_name": "com.geolocationbackground"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "355067498840-f5h824sppk1opigim6q5uvhispriq1g0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.geolocationbackground",
+            "certificate_hash": "d1e081361bf3eb69e6e96d2e1cf0c23f71a05ab6"
+          }
+        },
+        {
+          "client_id": "355067498840-bd6t109n9a7613nin6csqs165a0pegtd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0reWJKtzcj-KyEFEZVzSejQH9LwgJSGo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "355067498840-bd6t109n9a7613nin6csqs165a0pegtd.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "355067498840-oo3vbo1onj3jbhus2bt4m4ui1n24fvcl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.geolocationbackground"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
