@@ -11,12 +11,12 @@ import {persistor, store} from 'src/Store/store';
 import {PersistGate} from 'redux-persist/integration/react';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import AppNavigation from 'src/Navigators/AppNavigator';
-// import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 
-// GoogleSignin.configure({
-//   webClientId:
-//     '355067498840-oo3vbo1onj3jbhus2bt4m4ui1n24fvcl.apps.googleusercontent.com',
-// });
+GoogleSignin.configure({
+  webClientId:
+    '355067498840-oo3vbo1onj3jbhus2bt4m4ui1n24fvcl.apps.googleusercontent.com',
+});
 function App(): React.JSX.Element {
   return (
     <Provider store={store}>

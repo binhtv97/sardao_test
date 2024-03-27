@@ -12,7 +12,7 @@ import {ButtonItemProps} from '../ButtonGroup';
 import {StyleSheet} from 'react-native';
 import {colors} from 'src/Themes';
 
-export interface LayOut {
+export interface IContainer {
   isFullScreen?: boolean;
   isShowHeader?: boolean;
   children: React.ReactNode;
@@ -26,7 +26,7 @@ export interface LayOut {
   isRequireDismisKeybarod?: boolean;
 }
 
-const LayOut = ({
+const Container = ({
   isFullScreen = false,
   isShowHeader = true,
   children,
@@ -38,7 +38,7 @@ const LayOut = ({
   iconLeft = [],
   onLeftPress,
   isRequireDismisKeybarod = false,
-}: LayOut) => {
+}: IContainer) => {
   const renderBody = () => {
     return (
       <View style={[styles.flex]}>
@@ -73,7 +73,7 @@ const LayOut = ({
   );
 };
 
-export default LayOut;
+export default Container;
 
 export const styles = StyleSheet.create({
   container: {
