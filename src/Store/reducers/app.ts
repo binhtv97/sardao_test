@@ -38,6 +38,9 @@ const appSlice = createSlice({
       state.data[currentUser].transactions?.push(transaction);
       state.data[currentUser].amount -= transaction.amount;
     },
+    logout: (state, action: PayloadAction) => {
+      state.currentUser = '';
+    },
   },
 });
 

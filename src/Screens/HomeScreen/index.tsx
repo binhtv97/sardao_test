@@ -1,4 +1,4 @@
-import {useFocusEffect} from '@react-navigation/native';
+import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {
   Text,
@@ -8,10 +8,11 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {Container, CustomButton, CustomImage, Space} from 'src/Components';
 import {navigate} from 'src/Navigators/RootNavigation';
 import RouteKey from 'src/Navigators/RouteKey';
+import {appActions} from 'src/Store/reducers';
 import {getAppState, getCurrentUser} from 'src/Store/selectors/app';
 import {ITransactions} from 'src/Store/types';
 import {colors, pf, ph, pw} from 'src/Themes';
@@ -19,7 +20,7 @@ import {colors, pf, ph, pw} from 'src/Themes';
 const HomeScreen = ({}) => {
   const appState = useSelector(getAppState);
   const currentUser = useSelector(getCurrentUser);
-
+  const dispatch = useDispatch();
   const [data, setData] = useState(() => {
     return appState.data[currentUser];
   });
@@ -57,6 +58,11 @@ const HomeScreen = ({}) => {
   const navigateAddUser = () => {
     navigate(RouteKey.AddBeneficiaryScreen);
   };
+
+  const logout = () => {
+    dispatch(appActions.logout());
+  };
+
   return (
     <Container
       style={styles.container}
@@ -95,6 +101,7 @@ const HomeScreen = ({}) => {
         style={{position: 'absolute', bottom: 0, width: pw(230)}}
         label={[{text: 'LOG OUT', style: styles.logout}]}
         color="red"
+        onPress={logout}
       />
     </Container>
   );

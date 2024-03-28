@@ -9,17 +9,12 @@ import TransactionScreen from 'src/Screens/TransactionScreen';
 
 const Stack = createNativeStackNavigator<AppStackParamList>();
 
-export const MainNavigator = ({
-  initialRouteName,
-}: {
-  initialRouteName: string;
-}) => (
+export const MainNavigator = () => (
   <Stack.Navigator
-    initialRouteName={initialRouteName}
+    initialRouteName={RouteKey.HomeScreen}
     screenOptions={{
       headerShown: false,
     }}>
-    <Stack.Screen name={RouteKey.LoginScreen} component={LoginScreen} />
     <Stack.Screen name={RouteKey.HomeScreen} component={HomeScreen} />
     <Stack.Screen
       name={RouteKey.AddBeneficiaryScreen}
@@ -29,5 +24,14 @@ export const MainNavigator = ({
       name={RouteKey.TransactionScreen}
       component={TransactionScreen}
     />
+  </Stack.Navigator>
+);
+
+export const AuthNavigator = () => (
+  <Stack.Navigator
+    screenOptions={{
+      headerShown: false,
+    }}>
+    <Stack.Screen name={RouteKey.LoginScreen} component={LoginScreen} />
   </Stack.Navigator>
 );
