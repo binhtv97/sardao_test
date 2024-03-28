@@ -4,6 +4,8 @@ export enum RouteKey {
   // screen
   HomeScreen = 'HomeScreen',
   LoginScreen = 'LoginScreen',
+  AddBeneficiaryScreen = 'AddBeneficiaryScreen',
+  TransactionScreen = 'TransactionScreen',
 }
 
 export default RouteKey;

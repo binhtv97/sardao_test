@@ -1,60 +1,97 @@
 import React, {useState} from 'react';
-import {View, TextInput, Button, Text} from 'react-native';
-import {useTransactions} from './TransactionContext';
+import {Button, Text, Alert} from 'react-native';
+import DropDownPicker from 'react-native-dropdown-picker';
+import {useDispatch, useSelector} from 'react-redux';
+import {Container, Space} from 'src/Components';
+import Input from 'src/Components/Input';
+import {goBack} from 'src/Navigators/RootNavigation';
+import {appActions} from 'src/Store/reducers';
+import {getAppState, getCurrentUser} from 'src/Store/selectors/app';
+import {ph} from 'src/Themes';
 
-const TransactionScreen = ({navigation}) => {
+const TransactionScreen = () => {
+  const dispatch = useDispatch();
   const [amount, setAmount] = useState('');
-  const [name, setName] = useState('');
-  const [iban, setIban] = useState('');
-  const {addTransaction} = useTransactions();
+  const currentUser = useSelector(getCurrentUser);
+  const data = useSelector(getAppState).data[currentUser];
+  const currentAmount = data.amount;
+  const [errorAmount, setError] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState('');
+  const [items, setItems] = useState(
+    () =>
+      data.beneficiaries?.map(user => ({
+        label: user.first_name + ' - ' + user.iban,
+        value: user.first_name + ' - ' + user.iban,
+      })) || [],
+  );
 
-  const handleTransaction = () => {
-    const accountDetails = {name, iban};
-    addTransaction(amount, accountDetails);
-    navigation.goBack();
+  const onSubmit = () => {
+    if (parseFloat(amount) > currentAmount) {
+      Alert.alert('Cannot enter a larger number ', '', [
+        {
+          text: 'Cancel',
+          onPress: () => console.log(''),
+          style: 'cancel',
+        },
+      ]);
+      return;
+    }
+    dispatch(
+      appActions.addTransaction({
+        id: Date.now().toString(),
+        amount: parseFloat(amount),
+        iban: value.substring(value.indexOf('-') + 1, value.length),
+        to: value.substring(0, value.indexOf('-')),
+      }),
+    );
+
+    Alert.alert('Add user Success', '', [
+      {
+        text: 'Add More',
+        onPress: () => console.log(''),
+        style: 'cancel',
+      },
+      {text: 'Go Back', onPress: () => goBack()},
+    ]);
+  };
+  const onAmountChange = tmpAmount => {
+    setAmount(tmpAmount);
+    if (parseFloat(tmpAmount) > currentAmount) {
+      setError(true);
+    } else {
+      setError(false);
+    }
   };
 
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <TextInput
-        style={{
-          height: 40,
-          borderColor: 'gray',
-          borderWidth: 1,
-          width: '80%',
-          marginVertical: 8,
-        }}
-        onChangeText={setAmount}
+    <Container
+      titileHeader="Create Transaction"
+      style={{flex: 1, alignItems: 'center'}}>
+      <Text>Amount: {currentAmount}$</Text>
+      <Input
         value={amount}
+        onChangeText={onAmountChange}
+        onRemove={() => setAmount('0')}
         keyboardType="numeric"
-        placeholder="Enter amount"
+        error={errorAmount}
       />
-      <TextInput
-        style={{
-          height: 40,
-          borderColor: 'gray',
-          borderWidth: 1,
-          width: '80%',
-          marginVertical: 8,
+      <Space height={ph(10)} />
+      <DropDownPicker
+        open={open}
+        value={value}
+        items={items}
+        setOpen={setOpen}
+        setValue={setValue}
+        setItems={setItems}
+        placeholder={'Choose a user.'}
+        containerStyle={{
+          maxWidth: '90%',
         }}
-        onChangeText={setName}
-        value={name}
-        placeholder="Recipient Name"
       />
-      <TextInput
-        style={{
-          height: 40,
-          borderColor: 'gray',
-          borderWidth: 1,
-          width: '80%',
-          marginVertical: 8,
-        }}
-        onChangeText={setIban}
-        value={iban}
-        placeholder="Recipient IBAN"
-      />
-      <Button title="Submit Transaction" onPress={handleTransaction} />
-    </View>
+      <Space height={ph(10)} />
+      <Button title="Submit Transaction" onPress={onSubmit} />
+    </Container>
   );
 };
 

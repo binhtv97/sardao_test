@@ -1,7 +1,15 @@
 import {AnyAction} from 'redux';
-import {takeLatest} from 'redux-saga/effects';
+import {put, takeLatest} from 'redux-saga/effects';
 import {appActions} from '../reducers';
+import {PayloadAction} from '@reduxjs/toolkit';
+import {ILogin} from '../types';
 
-function* getAppSettingSaga(): IterableIterator<AnyAction> {}
+// function* getAppSettingSaga(): IterableIterator<AnyAction> {}
 
-export default [takeLatest(appActions.setTransaction.type, getAppSettingSaga)];
+function* loginSSO({
+  payload,
+}: PayloadAction<ILogin>): IterableIterator<AnyAction> {
+  //   yield put(appActions.setPage(payload));
+}
+
+export default [takeLatest(appActions.login.type, loginSSO)];

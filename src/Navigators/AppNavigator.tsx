@@ -1,24 +1,24 @@
-import {DarkTheme, NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
 import {navigationRef} from './RootNavigation';
 import {MainNavigator} from './StackNavigation';
-import {colors} from '../Themes';
+import {useSelector} from 'react-redux';
+import {getAppState} from 'src/Store/selectors/app';
+import RouteKey from './RouteKey';
 
 function AppNavigation(): React.ReactElement {
+  const currentUser = useSelector(getAppState).currentUser;
   function renderStack(): React.ReactNode {
-    return <MainNavigator />;
+    let initialRouteName = RouteKey.LoginScreen;
+    if (currentUser) {
+      initialRouteName = RouteKey.HomeScreen;
+    }
+
+    return <MainNavigator initialRouteName={initialRouteName} />;
   }
 
   return (
-    <NavigationContainer
-      theme={{
-        dark: true,
-        colors: {
-          ...DarkTheme.colors,
-          background: colors.transparent,
-        },
-      }}
-      ref={navigationRef}>
+    <NavigationContainer ref={navigationRef}>
       {renderStack()}
     </NavigationContainer>
   );

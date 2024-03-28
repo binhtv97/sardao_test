@@ -4,13 +4,14 @@ export interface IApp {
 }
 
 export interface data {
-  [email: string]: UserTransactions;
+  [email: string]: IUserInfo;
 }
 
-export interface UserTransactions {
+export interface IUserInfo {
   amount: number;
-  transactions: ITransactions[];
-  beneficiaries: Beneficiaries[];
+  transactions?: ITransactions[];
+  beneficiaries?: IBeneficiaries[];
+  password?: string;
 }
 
 export interface ITransactions {
@@ -20,8 +21,13 @@ export interface ITransactions {
   iban: string;
 }
 
-export interface Beneficiaries {
+export interface IBeneficiaries {
   first_name: string;
   last_name: string;
   iban: string;
+}
+
+export interface ILogin {
+  email: string;
+  password: string;
 }

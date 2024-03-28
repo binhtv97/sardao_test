@@ -38,7 +38,7 @@ export const CustomButton = ({
   loading = false,
   disabled = false,
   isDefault = true,
-  color = '#32AEA6',
+  color,
   textStyle,
   icon,
   iconStyle,

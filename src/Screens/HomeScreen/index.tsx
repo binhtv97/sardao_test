@@ -1,39 +1,102 @@
-import React from 'react';
-import {View, Text, Button, FlatList, StyleSheet} from 'react-native';
-// import {useTransactions} from './TransactionContext';
+import {useFocusEffect} from '@react-navigation/native';
+import React, {useState} from 'react';
+import {
+  Text,
+  StyleSheet,
+  FlatList,
+  View,
+  TouchableOpacity,
+  Dimensions,
+} from 'react-native';
+import {useSelector} from 'react-redux';
+import {Container, CustomButton, CustomImage, Space} from 'src/Components';
+import {navigate} from 'src/Navigators/RootNavigation';
+import RouteKey from 'src/Navigators/RouteKey';
+import {getAppState, getCurrentUser} from 'src/Store/selectors/app';
+import {ITransactions} from 'src/Store/types';
+import {colors, pf, ph, pw} from 'src/Themes';
 
-const HomeScreen = ({navigation}) => {
-  // const {transactions, balance} = useTransactions();
+const HomeScreen = ({}) => {
+  const appState = useSelector(getAppState);
+  const currentUser = useSelector(getCurrentUser);
 
-  // const renderItem = ({item}) => (
-  //   <View style={styles.item}>
-  //     <Text style={styles.itemText}>Transaction ID: {item.id}</Text>
-  //     <Text style={styles.itemText}>Amount: ${item.amount.toFixed(2)}</Text>
-  //     {item.account && (
-  //       <>
-  //         <Text style={styles.itemText}>To: {item.account.name}</Text>
-  //         <Text style={styles.itemText}>IBAN: {item.account.iban}</Text>
-  //       </>
-  //     )}
-  //   </View>
-  // );
+  const [data, setData] = useState(() => {
+    return appState.data[currentUser];
+  });
 
+  useFocusEffect(
+    React.useCallback(() => {
+      setData(appState.data[currentUser]);
+      console.log(appState.data[currentUser]);
+    }, [appState.data, currentUser]),
+  );
+
+  const renderHistory = ({
+    item,
+    index,
+  }: {
+    item: ITransactions;
+    index: number;
+  }) => {
+    console.log(item.id);
+
+    const date = new Date(parseFloat(item.id));
+    console.log(date);
+
+    return (
+      <View style={styles.item}>
+        <Text>{item.to}</Text>
+        <Text>
+          {date.getDay() + '/' + date.getMonth() + '/' + date.getFullYear()}
+        </Text>
+        <Text>{item.amount}</Text>
+      </View>
+    );
+  };
+
+  const navigateAddUser = () => {
+    navigate(RouteKey.AddBeneficiaryScreen);
+  };
   return (
-    <View style={styles.container}>
-      <Text style={styles.balanceText}>
-        {/* Current Balance: ${balance.toFixed(2)} */}
-      </Text>
-      <Button
-        title="Add Transaction"
-        onPress={() => navigation.navigate('Transaction')}
+    <Container
+      style={styles.container}
+      titileHeader="ONLINE BANKING"
+      hasBack={false}
+      iconRight={[
+        {
+          icon: 'person_add',
+          onPress: navigateAddUser,
+        },
+      ]}>
+      <Text style={styles.balanceText}>Welcome {currentUser}</Text>
+      <Space height={20} />
+      <View style={styles.info}>
+        <View style={styles.infoLeft}>
+          <Text style={styles.balanceText}>Balances</Text>
+          <Text style={styles.balanceText}>{data.amount}$</Text>
+        </View>
+        <View style={styles.infoRight}>
+          <TouchableOpacity
+            style={styles.add}
+            onPress={() => navigate(RouteKey.TransactionScreen)}>
+            <CustomImage name="add" />
+          </TouchableOpacity>
+        </View>
+      </View>
+      <Space height={20} />
+      <Text>Recent Activities</Text>
+      <FlatList
+        data={data.transactions}
+        keyExtractor={item => item.id}
+        renderItem={renderHistory}
       />
-      {/* <FlatList
-        data={transactions}
-        keyExtractor={item => item.id.toString()}
-        renderItem={renderItem}
-        contentContainerStyle={styles.listContainer}
-      /> */}
-    </View>
+      <Space height={ph(50)} />
+      <CustomButton
+        style={{position: 'absolute', bottom: 0, width: pw(230)}}
+        label={[{text: 'LOG OUT', style: styles.logout}]}
+        color="red"
+      />
+    </Container>
   );
 };
 
@@ -42,12 +105,11 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 20,
+    paddingTop: pw(20),
   },
   balanceText: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 20,
   },
   item: {
     backgroundColor: '#f9f9f9',
@@ -57,6 +119,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 1,
     borderColor: '#ddd',
+    width: Dimensions.get('window').width - pw(20) * 2,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   itemText: {
     fontSize: 16,
@@ -64,6 +129,36 @@ const styles = StyleSheet.create({
   listContainer: {
     flexGrow: 1,
     width: '100%',
+  },
+  info: {
+    width: '100%',
+    height: ph(100),
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  infoLeft: {
+    width: '60%',
+    borderTopRightRadius: 15,
+    borderBottomRightRadius: 15,
+    backgroundColor: colors.sky,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  infoRight: {
+    width: '30%',
+    justifyContent: 'center',
+  },
+  add: {
+    height: 80,
+    width: 80,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 20,
+    backgroundColor: colors.red,
+  },
+  logout: {
+    fontSize: pf(20),
+    color: colors.white,
   },
 });
 

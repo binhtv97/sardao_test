@@ -1,44 +1,43 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
-import {Container, CustomButton} from 'src/Components';
-import {
-  GoogleSignin,
-  statusCodes,
-} from '@react-native-google-signin/google-signin';
+import React, {useState} from 'react';
+import {Container, CustomButton, Space} from 'src/Components';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import Input from 'src/Components/Input';
+import {colors, pf, ph, pw} from 'src/Themes';
+import {useDispatch} from 'react-redux';
+import {ILogin} from 'src/Store/types';
+import {appActions} from 'src/Store/reducers';
+import {navigate} from 'src/Navigators/RootNavigation';
+import RouteKey from 'src/Navigators/RouteKey';
 const LoginScreen = () => {
+  const dispatch = useDispatch();
   const onPress = async () => {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      console.log(userInfo);
+      const user: ILogin = {
+        email: userInfo.user.email,
+        password: '',
+      };
 
-      // setState({userInfo, error: undefined});
-    } catch (error) {
-      console.log(error);
-
-      // if (isErrorWithCode(error)) {
-      //   switch (error.code) {
-      //     case statusCodes.SIGN_IN_CANCELLED:
-      //       // user cancelled the login flow
-      //       break;
-      //     case statusCodes.IN_PROGRESS:
-      //       // operation (eg. sign in) already in progress
-      //       break;
-      //     case statusCodes.PLAY_SERVICES_NOT_AVAILABLE:
-      //       // play services not available or outdated
-      //       break;
-      //     default:
-      //     // some other error happened
-      //   }
-      // } else {
-      //   // an error that's not related to google sign in occurred
-      // }
-    }
+      dispatch(appActions.updateAppSettingLoginSSO(user));
+      navigate(RouteKey.HomeScreen);
+    } catch (error) {}
   };
 
   return (
-    <Container style={styles.container} titileHeader="LOGIN">
-      <CustomButton label={[{text: '123'}]} onPress={onPress} />
+    <Container style={styles.container} titileHeader="LOGIN" hasBack={false}>
+      <Space height={ph(10)} />
+      <CustomButton
+        label={[
+          {text: 'Login with', style: styles.googleLogin},
+          {text: 'GOOGLE', style: styles.googleText},
+          {text: 'to using app', style: styles.googleLogin},
+        ]}
+        color={colors.inkDark}
+        onPress={onPress}
+      />
+      <Space height={ph(10)} />
     </Container>
   );
 };
@@ -48,5 +47,20 @@ export default LoginScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingHorizontal: pw(20),
+  },
+  submitText: {
+    fontSize: pf(20),
+  },
+  center: {
+    alignItems: 'center',
+  },
+  googleText: {
+    color: colors.red,
+    fontSize: pf(20),
+  },
+  googleLogin: {
+    color: colors.white,
+    fontSize: pf(20),
   },
 });

@@ -1,5 +1,5 @@
-import {IInitialState} from '../types';
-// import {MovieI} from '../types/movie';
+import {IApp, IInitialState} from '../types';
 
-// export const getFavories = (state: IInitialState): MovieI[] =>
-//   state.app.favories;
+export const getAppState = (state: IInitialState): IApp => state.app;
+export const getCurrentUser = (state: IInitialState): string =>
+  state.app.currentUser;
