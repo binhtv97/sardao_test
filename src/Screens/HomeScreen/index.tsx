@@ -1,4 +1,4 @@
-import {useFocusEffect, useNavigation} from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {
   Text,
@@ -32,13 +32,7 @@ const HomeScreen = ({}) => {
     }, [appState.data, currentUser]),
   );
 
-  const renderHistory = ({
-    item,
-    index,
-  }: {
-    item: ITransactions;
-    index: number;
-  }) => {
+  const renderHistory = ({item}: {item: ITransactions; index: number}) => {
     console.log(item.id);
 
     const date = new Date(parseFloat(item.id));

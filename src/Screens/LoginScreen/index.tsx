@@ -19,10 +19,14 @@ const LoginScreen = () => {
         email: userInfo.user.email,
         password: '',
       };
+      console.log(userInfo);
 
       dispatch(appActions.updateAppSettingLoginSSO(user));
-      navigate(RouteKey.HomeScreen);
-    } catch (error) {}
+      // navigate(RouteKey.HomeScreen);
+    } catch (error) {
+      console.log(error);
+      
+    }
   };
 
   return (
