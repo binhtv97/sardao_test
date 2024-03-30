@@ -1,14 +1,11 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React, {useState} from 'react';
+import {StyleSheet} from 'react-native';
+import React from 'react';
 import {Container, CustomButton, Space} from 'src/Components';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import Input from 'src/Components/Input';
 import {colors, pf, ph, pw} from 'src/Themes';
 import {useDispatch} from 'react-redux';
 import {ILogin} from 'src/Store/types';
 import {appActions} from 'src/Store/reducers';
-import {navigate} from 'src/Navigators/RootNavigation';
-import RouteKey from 'src/Navigators/RouteKey';
 const LoginScreen = () => {
   const dispatch = useDispatch();
   const onPress = async () => {
@@ -22,11 +19,7 @@ const LoginScreen = () => {
       console.log(userInfo);
 
       dispatch(appActions.updateAppSettingLoginSSO(user));
-      // navigate(RouteKey.HomeScreen);
-    } catch (error) {
-      console.log(error);
-      
-    }
+    } catch (error) {}
   };
 
   return (

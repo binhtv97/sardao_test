@@ -13,10 +13,3 @@ export interface IActionDispatch {
   onSuccess: () => void;
   onFailure: () => void;
 }
-
-export interface IActionTypes {
-  ORIGIN: string;
-  HANDLER: string;
-  SUCCESS: string;
-  FAILURE: string;
-}
