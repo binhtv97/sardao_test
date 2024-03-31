@@ -19,6 +19,7 @@ import {getAppState, getCurrentUser} from 'src/Store/selectors/app';
 import {ITransactions} from 'src/Store/types';
 // themes
 import {colors, pf, ph, pw} from 'src/Themes';
+import {formatDate} from 'src/Utilities';
 
 const HomeScreen = ({}) => {
   const appState = useSelector(getAppState);
@@ -36,6 +37,9 @@ const HomeScreen = ({}) => {
 
   const renderHistory = ({item}: {item: ITransactions; index: number}) => {
     const date = new Date(parseFloat(item.id));
+    console.log(formatDate(parseFloat(item.id)));
+    console.log(item.id);
+
     return (
       <View style={styles.item}>
         <Text>{item.to}</Text>

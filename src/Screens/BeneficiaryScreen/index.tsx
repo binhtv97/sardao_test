@@ -7,11 +7,11 @@ import {
   View,
 } from 'react-native';
 import React from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import {Container, CustomImage} from 'src/Components';
 import {ph, pw} from 'src/Themes';
 import {navigate} from 'src/Navigators/RootNavigation';
 import RouteKey from 'src/Navigators/RouteKey';
-import {useDispatch, useSelector} from 'react-redux';
 import {getAppState, getCurrentUser} from 'src/Store/selectors/app';
 import {IBeneficiaries} from 'src/Store/types';
 import {appActions} from 'src/Store/reducers';

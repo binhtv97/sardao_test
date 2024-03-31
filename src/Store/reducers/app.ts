@@ -33,10 +33,6 @@ const appSlice = createSlice({
       };
       state.currentUser = email;
     },
-    updateAppSettingLogin: (state, action: PayloadAction<ILogin>) => {
-      const email = action.payload.email;
-      state.currentUser = email;
-    },
     addBeneficiary: (state, action: PayloadAction<IBeneficiaries>) => {
       const currentUser = state.currentUser;
       const user = action.payload;
@@ -50,8 +46,6 @@ const appSlice = createSlice({
 
       if (Number.isSafeInteger(index) && index >= 0) {
         state.data[currentUser].beneficiaries?.splice(index, 1);
-      } else if (beneficiaries?.length === 1) {
-        state.data[currentUser].beneficiaries = [];
       }
     },
     addTransaction: (state, action: PayloadAction<ITransactions>) => {
