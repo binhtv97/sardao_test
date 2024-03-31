@@ -19,7 +19,6 @@ interface InputProps {
   password?: boolean;
   iconClose?: boolean;
   error?: boolean;
-  errorMessage?: string;
   placeholder?: string;
   editable?: boolean;
   keyboardType?: KeyboardType;

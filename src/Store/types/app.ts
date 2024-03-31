@@ -1,7 +1,6 @@
 export interface IApp {
   currentUser: string;
   data: data;
-  errorMessage?: string;
 }
 
 export interface data {

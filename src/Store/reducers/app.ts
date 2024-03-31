@@ -5,7 +5,6 @@ import {Alert} from 'react-native';
 export const appInitialState: IApp = {
   currentUser: '',
   data: {},
-  errorMessage: '',
 };
 
 const appSlice = createSlice({
