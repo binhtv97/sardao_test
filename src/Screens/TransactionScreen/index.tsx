@@ -14,6 +14,7 @@ import {appActions} from 'src/Store/reducers';
 import {ITemDropdown} from 'src/Store/types';
 import {getAppState, getCurrentUser} from 'src/Store/selectors/app';
 import RouteKey from 'src/Navigators/RouteKey';
+import {useFocusEffect} from '@react-navigation/native';
 
 const TransactionScreen = () => {
   const dispatch = useDispatch();
@@ -32,8 +33,19 @@ const TransactionScreen = () => {
       })) || [],
   );
 
+  useFocusEffect(
+    React.useCallback(() => {
+      setItems(
+        data.beneficiaries?.map(user => ({
+          label: user.first_name + ' - ' + user.iban,
+          value: user.first_name + ' - ' + user.iban,
+        })) || [],
+      );
+    }, [data.beneficiaries]),
+  );
+
   useEffect(() => {
-    if (data.beneficiaries) {
+    if (data.beneficiaries?.length === 0) {
       Alert.alert("You don't have any Beneficiary", '', [
         {
           text: 'Add More',
@@ -42,7 +54,8 @@ const TransactionScreen = () => {
         },
       ]);
     }
-  }, [data.beneficiaries]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onSubmit = () => {
     if (parseFloat(amount) > currentAmount) {
@@ -77,7 +90,7 @@ const TransactionScreen = () => {
         }),
       );
 
-      Alert.alert('Add user Success', '', [
+      Alert.alert('Add Transaction Success', '', [
         {
           text: 'Add More',
           onPress: () => console.log(''),

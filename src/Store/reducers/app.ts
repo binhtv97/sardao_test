@@ -45,11 +45,14 @@ const appSlice = createSlice({
     removeBeneficiary: (state, action: PayloadAction<string>) => {
       const currentUser = state.currentUser;
       const iban = action.payload;
-      const index = state.data[currentUser].beneficiaries?.findIndex(
-        item => item.iban === iban,
-      );
-      if (index) {
+      const beneficiaries = state.data[currentUser].beneficiaries;
+      const index = beneficiaries?.findIndex(item => item.iban === iban);
+      console.log(index);
+
+      if (Number.isSafeInteger(index) && index >= 0) {
         state.data[currentUser].beneficiaries?.splice(index, 1);
+      } else if (beneficiaries?.length === 1) {
+        state.data[currentUser].beneficiaries = [];
       }
     },
     addTransaction: (state, action: PayloadAction<ITransactions>) => {
