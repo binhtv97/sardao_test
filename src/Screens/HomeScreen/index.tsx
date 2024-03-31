@@ -48,7 +48,7 @@ const HomeScreen = ({}) => {
   };
 
   const navigateAddUser = () => {
-    navigate(RouteKey.AddBeneficiaryScreen);
+    navigate(RouteKey.BeneficiaryScreen);
   };
 
   const logout = () => {
@@ -90,7 +90,7 @@ const HomeScreen = ({}) => {
       />
       <Space height={ph(50)} />
       <CustomButton
-        style={{position: 'absolute', bottom: 0, width: pw(230)}}
+        style={styles.buttonLogout}
         label={[{text: 'LOG OUT', style: styles.logout}]}
         color="red"
         onPress={logout}
@@ -159,6 +159,7 @@ const styles = StyleSheet.create({
     fontSize: pf(20),
     color: colors.white,
   },
+  buttonLogout: {position: 'absolute', bottom: 10, width: pw(230)},
 });
 
 export default HomeScreen;

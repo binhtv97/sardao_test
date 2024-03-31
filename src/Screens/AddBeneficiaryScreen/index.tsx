@@ -21,18 +21,23 @@ type FormType = {
   firstname: string;
   lastname: string;
   iban: string;
+  validateFistnameInput: boolean;
+  validateLastInput: boolean;
+  validateIbanInput: boolean;
 };
 
-const initForm = {
+const initForm: FormType = {
   firstname: '',
   lastname: '',
   iban: '',
+  validateFistnameInput: false,
+  validateIbanInput: false,
+  validateLastInput: false,
 };
 const AddBeneficiaryScreen = () => {
   const dispatch = useDispatch();
   const [form, setForm] = useState<FormType>(initForm);
   const ibanValue = useDebounce(form?.iban);
-  const [validateIban, setIbanStatus] = useState<boolean>(true);
   const [ibanRule, setRule] = useState<IBanRule>({});
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState<string | null>('');
@@ -55,16 +60,20 @@ const AddBeneficiaryScreen = () => {
     if (ibanRule?.regex) {
       const result = ibanValue?.match(ibanRule?.regex);
       if (result === null) {
-        setIbanStatus(false);
+        setForm(pre => {
+          return {...pre, validateIbanInput: false};
+        });
       } else {
-        setIbanStatus(true);
+        setForm(pre => {
+          return {...pre, validateIbanInput: true};
+        });
       }
     }
   }, [ibanRule?.regex, ibanValue]);
 
   const onSubmit = () => {
-    const {firstname, lastname, iban} = form;
-    if (validateIban && firstname.length > 0 && lastname.length > 0) {
+    const {firstname, lastname, iban, validateIbanInput} = form;
+    if (validateIbanInput && firstname.length > 0 && lastname.length > 0) {
       const user: IBeneficiaries = {
         first_name: firstname,
         last_name: lastname,
@@ -82,12 +91,14 @@ const AddBeneficiaryScreen = () => {
         {text: 'Go Back', onPress: () => goBack()},
       ]);
     } else {
+      if (lastname.length < 5) {
+        setForm(pre => {
+          return {...pre, validateLastInput: true};
+        });
+      }
       Alert.alert('Please check your form', '', [
         {
           text: 'Cancel',
-          onPress: () => {
-            setForm(initForm);
-          },
           style: 'cancel',
         },
       ]);
@@ -117,6 +128,7 @@ const AddBeneficiaryScreen = () => {
             return {...pre, lastname: text};
           })
         }
+        error={form.validateLastInput}
         onRemove={() =>
           setForm(pre => {
             return {...pre, lastname: ''};
@@ -139,7 +151,7 @@ const AddBeneficiaryScreen = () => {
         value={form.iban}
         onChangeText={text =>
           setForm(pre => {
-            return {...pre, iban: text};
+            return {...pre, iban: text.toLocaleUpperCase()};
           })
         }
         onRemove={() =>
@@ -149,7 +161,7 @@ const AddBeneficiaryScreen = () => {
         }
         editable={value !== null}
         placeholder={ibanRule?.placeholder}
-        error={!validateIban && form.iban.length > 0}
+        error={!form.validateIbanInput && form.iban.length > 0}
       />
       <Space height={ph(10)} />
       <CustomButton

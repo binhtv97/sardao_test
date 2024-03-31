@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Text, Alert} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {useDispatch, useSelector} from 'react-redux';
@@ -6,13 +6,14 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Container, Space} from 'src/Components';
 import Input from 'src/Components/Input';
 //navigator
-import {goBack} from 'src/Navigators/RootNavigation';
+import {goBack, navigate} from 'src/Navigators/RootNavigation';
 // themes
 import {ph} from 'src/Themes';
 // import from store
 import {appActions} from 'src/Store/reducers';
 import {ITemDropdown} from 'src/Store/types';
 import {getAppState, getCurrentUser} from 'src/Store/selectors/app';
+import RouteKey from 'src/Navigators/RouteKey';
 
 const TransactionScreen = () => {
   const dispatch = useDispatch();
@@ -30,6 +31,18 @@ const TransactionScreen = () => {
         value: user.first_name + ' - ' + user.iban,
       })) || [],
   );
+
+  useEffect(() => {
+    if (data.beneficiaries) {
+      Alert.alert("You don't have any Beneficiary", '', [
+        {
+          text: 'Add More',
+          onPress: () => navigate(RouteKey.AddBeneficiaryScreen),
+          style: 'cancel',
+        },
+      ]);
+    }
+  }, [data.beneficiaries]);
 
   const onSubmit = () => {
     if (parseFloat(amount) > currentAmount) {
@@ -74,6 +87,7 @@ const TransactionScreen = () => {
       ]);
     }
   };
+
   const onAmountChange = (tmpAmount: string) => {
     setAmount(tmpAmount);
     if (parseFloat(tmpAmount) > currentAmount) {

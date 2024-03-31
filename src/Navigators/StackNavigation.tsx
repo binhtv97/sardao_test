@@ -7,6 +7,7 @@ import LoginScreen from 'src/Screens/LoginScreen';
 import AddBeneficiaryScreen from 'src/Screens/AddBeneficiaryScreen';
 import TransactionScreen from 'src/Screens/TransactionScreen';
 import RegisterScreen from 'src/Screens/RegisterScreen';
+import BeneficiaryScreen from 'src/Screens/BeneficiaryScreen';
 
 const Stack = createNativeStackNavigator<AppStackParamList>();
 
@@ -24,6 +25,10 @@ export const MainNavigator = () => (
     <Stack.Screen
       name={RouteKey.TransactionScreen}
       component={TransactionScreen}
+    />
+    <Stack.Screen
+      name={RouteKey.BeneficiaryScreen}
+      component={BeneficiaryScreen}
     />
   </Stack.Navigator>
 );

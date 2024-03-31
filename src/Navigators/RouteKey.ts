@@ -7,6 +7,7 @@ export enum RouteKey {
   RegisterScreen = 'RegisterScreen',
   AddBeneficiaryScreen = 'AddBeneficiaryScreen',
   TransactionScreen = 'TransactionScreen',
+  BeneficiaryScreen = 'BeneficiaryScreen',
 }
 
 export default RouteKey;

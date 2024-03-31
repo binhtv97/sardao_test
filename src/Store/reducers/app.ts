@@ -42,6 +42,16 @@ const appSlice = createSlice({
       const user = action.payload;
       state.data[currentUser].beneficiaries?.push(user);
     },
+    removeBeneficiary: (state, action: PayloadAction<string>) => {
+      const currentUser = state.currentUser;
+      const iban = action.payload;
+      const index = state.data[currentUser].beneficiaries?.findIndex(
+        item => item.iban === iban,
+      );
+      if (index) {
+        state.data[currentUser].beneficiaries?.splice(index, 1);
+      }
+    },
     addTransaction: (state, action: PayloadAction<ITransactions>) => {
       const currentUser = state.currentUser;
       const transaction = action.payload;
