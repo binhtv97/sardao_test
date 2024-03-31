@@ -47,7 +47,6 @@ const appSlice = createSlice({
       const iban = action.payload;
       const beneficiaries = state.data[currentUser].beneficiaries;
       const index = beneficiaries?.findIndex(item => item.iban === iban);
-      console.log(index);
 
       if (Number.isSafeInteger(index) && index >= 0) {
         state.data[currentUser].beneficiaries?.splice(index, 1);

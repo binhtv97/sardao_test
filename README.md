@@ -8,4 +8,6 @@ To run the project please
 3) yarn ios/android
 
 Project flow
-Login/Register -> HomeScreen -> Add 
+1) Login/Register -> (2) HomeScreen ->(3) Create Transaction
+                                    ->(4) Add BeneficiaryScreen
+                                    ->(5) Create Transaction
