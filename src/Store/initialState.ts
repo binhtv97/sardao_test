@@ -4,6 +4,7 @@ const INITIAL_STATE: IInitialState = {
   app: {
     currentUser: '',
     data: {},
+    errorMessage: '',
   },
 };
 

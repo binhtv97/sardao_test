@@ -5,26 +5,36 @@ import {Alert} from 'react-native';
 export const appInitialState: IApp = {
   currentUser: '',
   data: {},
+  errorMessage: '',
 };
 
 const appSlice = createSlice({
   name: 'app',
   initialState: appInitialState,
   reducers: {
-    login: () => {},
-    updateAppSettingLoginSSO: (state, action: PayloadAction<ILogin>) => {
+    login: (state, action: PayloadAction<ILogin>) => {
       const email = action.payload.email;
       const pw = action.payload.password;
       const data = state.data;
-      const findUser = Object.keys(data).includes(email);
-      if (!findUser) {
-        state.data[email] = {
-          amount: 1000,
-          password: pw,
-          beneficiaries: [],
-          transactions: [],
-        };
+      if (data[email] && data[email].password === pw) {
+        state.currentUser = email;
+      } else {
+        Alert.alert('Please check again');
       }
+    },
+    register: (state, action: PayloadAction<ILogin>) => {
+      const email = action.payload.email;
+      const pw = action.payload.password;
+      state.data[email] = {
+        amount: 1000,
+        password: pw,
+        beneficiaries: [],
+        transactions: [],
+      };
+      state.currentUser = email;
+    },
+    updateAppSettingLogin: (state, action: PayloadAction<ILogin>) => {
+      const email = action.payload.email;
       state.currentUser = email;
     },
     addBeneficiary: (state, action: PayloadAction<IBeneficiaries>) => {
@@ -38,7 +48,7 @@ const appSlice = createSlice({
       state.data[currentUser].transactions?.push(transaction);
       state.data[currentUser].amount -= transaction.amount;
     },
-    logout: (state, action: PayloadAction) => {
+    logout: state => {
       state.currentUser = '';
     },
   },

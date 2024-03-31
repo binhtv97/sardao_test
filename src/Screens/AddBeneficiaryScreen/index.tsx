@@ -11,20 +11,22 @@ import {appActions} from 'src/Store/reducers';
 import {IBeneficiaries} from 'src/Store/types';
 import {goBack} from 'src/Navigators/RootNavigation';
 
+type IBanRule = {
+  placeholder?: string;
+  regex?: RegExp;
+};
 const AddBeneficiaryScreen = () => {
   const dispatch = useDispatch();
   const [firstname, setName] = useState('');
   const [lastname, setLastName] = useState('');
   const [iban, setIban] = useState('');
   const ibanValue = useDebounce(iban);
+
   const [validateIban, setIbanStatus] = useState<boolean>(true);
-  const [ibanRule, setRule] = useState<{
-    placeholder?: string;
-    regex?: RegExp;
-  }>({});
+  const [ibanRule, setRule] = useState<IBanRule>({});
 
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState<string | null>('');
   const [items, setItems] = useState(() =>
     ibanData.map(country => ({
       label: country.name,
