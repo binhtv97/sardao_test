@@ -19,7 +19,6 @@ import {getAppState, getCurrentUser} from 'src/Store/selectors/app';
 import {ITransactions} from 'src/Store/types';
 // themes
 import {colors, pf, ph, pw} from 'src/Themes';
-import {formatDate} from 'src/Utilities';
 
 const HomeScreen = ({}) => {
   const appState = useSelector(getAppState);
