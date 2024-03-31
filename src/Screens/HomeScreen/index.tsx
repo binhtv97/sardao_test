@@ -37,8 +37,6 @@ const HomeScreen = ({}) => {
 
   const renderHistory = ({item}: {item: ITransactions; index: number}) => {
     const date = new Date(parseFloat(item.id));
-    console.log(formatDate(parseFloat(item.id)));
-    console.log(item.id);
 
     return (
       <View style={styles.item}>
