@@ -32,3 +32,10 @@ export interface ILogin {
   email: string;
   password: string;
 }
+
+export type IBanRule = {
+  placeholder?: string;
+  regex?: RegExp;
+};
+
+export type ITemDropdown = {value: string; label: string};

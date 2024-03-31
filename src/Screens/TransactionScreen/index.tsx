@@ -7,18 +7,19 @@ import Input from 'src/Components/Input';
 import {goBack} from 'src/Navigators/RootNavigation';
 import {appActions} from 'src/Store/reducers';
 import {getAppState, getCurrentUser} from 'src/Store/selectors/app';
+import {ITemDropdown} from 'src/Store/types';
 import {ph} from 'src/Themes';
 
 const TransactionScreen = () => {
   const dispatch = useDispatch();
-  const [amount, setAmount] = useState('');
+  const [amount, setAmount] = useState<string>('');
   const currentUser = useSelector(getCurrentUser);
   const data = useSelector(getAppState).data[currentUser];
   const currentAmount = data.amount;
-  const [errorAmount, setError] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState('');
-  const [items, setItems] = useState(
+  const [errorAmount, setError] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
+  const [value, setValue] = useState<string>('');
+  const [items, setItems] = useState<ITemDropdown[]>(
     () =>
       data.beneficiaries?.map(user => ({
         label: user.first_name + ' - ' + user.iban,
@@ -35,27 +36,41 @@ const TransactionScreen = () => {
           style: 'cancel',
         },
       ]);
-      return;
-    }
-    dispatch(
-      appActions.addTransaction({
-        id: Date.now().toString(),
-        amount: parseFloat(amount),
-        iban: value.substring(value.indexOf('-') + 1, value.length),
-        to: value.substring(0, value.indexOf('-')),
-      }),
-    );
+    } else if (Number.isNaN(parseFloat(amount))) {
+      Alert.alert('Please check amount filed', '', [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+      ]);
+    } else if (!value) {
+      Alert.alert('Please choose user', '', [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+      ]);
+    } else {
+      dispatch(
+        appActions.addTransaction({
+          id: Date.now().toString(),
+          amount: parseFloat(amount),
+          iban: value.substring(value.indexOf('-') + 1, value.length),
+          to: value.substring(0, value.indexOf('-')),
+        }),
+      );
 
-    Alert.alert('Add user Success', '', [
-      {
-        text: 'Add More',
-        onPress: () => console.log(''),
-        style: 'cancel',
-      },
-      {text: 'Go Back', onPress: () => goBack()},
-    ]);
+      Alert.alert('Add user Success', '', [
+        {
+          text: 'Add More',
+          onPress: () => console.log(''),
+          style: 'cancel',
+        },
+        {text: 'Go Back', onPress: () => goBack()},
+      ]);
+    }
   };
-  const onAmountChange = tmpAmount => {
+  const onAmountChange = (tmpAmount: string) => {
     setAmount(tmpAmount);
     if (parseFloat(tmpAmount) > currentAmount) {
       setError(true);

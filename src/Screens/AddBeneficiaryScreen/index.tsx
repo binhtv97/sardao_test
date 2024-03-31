@@ -8,26 +8,20 @@ import {ibanData} from 'src/Utilities/iban';
 import useDebounce from 'src/Hooks/useDebounce';
 import {useDispatch} from 'react-redux';
 import {appActions} from 'src/Store/reducers';
-import {IBeneficiaries} from 'src/Store/types';
+import {IBanRule, IBeneficiaries, ITemDropdown} from 'src/Store/types';
 import {goBack} from 'src/Navigators/RootNavigation';
 
-type IBanRule = {
-  placeholder?: string;
-  regex?: RegExp;
-};
 const AddBeneficiaryScreen = () => {
   const dispatch = useDispatch();
-  const [firstname, setName] = useState('');
-  const [lastname, setLastName] = useState('');
-  const [iban, setIban] = useState('');
+  const [firstname, setName] = useState<string>('');
+  const [lastname, setLastName] = useState<string>('');
+  const [iban, setIban] = useState<string>('');
   const ibanValue = useDebounce(iban);
-
   const [validateIban, setIbanStatus] = useState<boolean>(true);
   const [ibanRule, setRule] = useState<IBanRule>({});
-
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState<string | null>('');
-  const [items, setItems] = useState(() =>
+  const [items, setItems] = useState<ITemDropdown[]>(() =>
     ibanData.map(country => ({
       label: country.name,
       value: country.name,
@@ -64,7 +58,11 @@ const AddBeneficiaryScreen = () => {
       Alert.alert('Add user Success', '', [
         {
           text: 'Add More',
-          onPress: () => console.log(''),
+          onPress: () => {
+            setLastName('');
+            setName('');
+            setIban('');
+          },
           style: 'cancel',
         },
         {text: 'Go Back', onPress: () => goBack()},
