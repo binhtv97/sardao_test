@@ -1,11 +1,14 @@
 import {Alert, StyleSheet, Text} from 'react-native';
 import React, {useState} from 'react';
-import {Container, CustomButton, Space} from 'src/Components';
-import {colors, pf, ph, pw} from 'src/Themes';
 import {useDispatch, useSelector} from 'react-redux';
+// import from component
+import {Container, CustomButton, Space} from 'src/Components';
+import Input from 'src/Components/Input';
+//themes
+import {colors, pf, ph, pw} from 'src/Themes';
+// import from store
 import {ILogin} from 'src/Store/types';
 import {appActions} from 'src/Store/reducers';
-import Input from 'src/Components/Input';
 import {getAppState} from 'src/Store/selectors/app';
 const RegisterScreen = () => {
   const dispatch = useDispatch();

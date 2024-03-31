@@ -2,13 +2,17 @@ import React, {useState} from 'react';
 import {Button, Text, Alert} from 'react-native';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {useDispatch, useSelector} from 'react-redux';
+// import from component
 import {Container, Space} from 'src/Components';
 import Input from 'src/Components/Input';
+//navigator
 import {goBack} from 'src/Navigators/RootNavigation';
-import {appActions} from 'src/Store/reducers';
-import {getAppState, getCurrentUser} from 'src/Store/selectors/app';
-import {ITemDropdown} from 'src/Store/types';
+// themes
 import {ph} from 'src/Themes';
+// import from store
+import {appActions} from 'src/Store/reducers';
+import {ITemDropdown} from 'src/Store/types';
+import {getAppState, getCurrentUser} from 'src/Store/selectors/app';
 
 const TransactionScreen = () => {
   const dispatch = useDispatch();

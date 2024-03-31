@@ -9,12 +9,15 @@ import {
   Dimensions,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
+// components
 import {Container, CustomButton, CustomImage, Space} from 'src/Components';
 import {navigate} from 'src/Navigators/RootNavigation';
 import RouteKey from 'src/Navigators/RouteKey';
+// store
 import {appActions} from 'src/Store/reducers';
 import {getAppState, getCurrentUser} from 'src/Store/selectors/app';
 import {ITransactions} from 'src/Store/types';
+// themes
 import {colors, pf, ph, pw} from 'src/Themes';
 
 const HomeScreen = ({}) => {
@@ -28,16 +31,11 @@ const HomeScreen = ({}) => {
   useFocusEffect(
     React.useCallback(() => {
       setData(appState.data[currentUser]);
-      console.log(appState.data[currentUser]);
     }, [appState.data, currentUser]),
   );
 
   const renderHistory = ({item}: {item: ITransactions; index: number}) => {
-    console.log(item.id);
-
     const date = new Date(parseFloat(item.id));
-    console.log(date);
-
     return (
       <View style={styles.item}>
         <Text>{item.to}</Text>
